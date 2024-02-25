@@ -1,7 +1,7 @@
 # CMPS 2200  Recitation 04
 
-**Name (Team Member 1):**_________________________  
-**Name (Team Member 2):**_________________________
+**Name (Team Member 1):**__Sean Hall_______________________  
+**Name (Team Member 2):**_____Tony Shen____________________
 
 
 In this lab you will practice using the `map` and `reduce` functions. These functions are commonly used together in a `map-reduce` framework, used by Google and others to parallelize and scale common computations.
@@ -36,8 +36,8 @@ To use this function to count words, you'll need to implement your own `map_f` a
 
 4. Assume that a word `w` appears `n` times. What is the **work** and **span** of `word_count_reduce` for this word, assuming a parallel implementation of the `reduce` function?
 
-**Enter answer here**
-
+word_count_reduce calls the function reduce and stores the result in a variable which it returns. To analyze the work and span of this function, we must analyze the work and span of the reduce function. Reduce splits the function in half recursively so the depth of our tree is log_2(n). At each node, the function "plus" is performed with a constant time of O(1). Because there are n total nodes and the tree is balanced, the work is W(n) = 2W(n/2) + 1. Thus Work is O(n).
+The span is the longest indepedent branch. W(n) = W(n/2) + O(1). Because the tree depth is log_(n), Span is O(logn).
 
 5. Why are we going through all this trouble? Couldn't I just use this function to count words?
 
@@ -52,8 +52,7 @@ for doc in docs:
 
 What is the problem that prevents us from easily parallelizing this solution?
 
-**Enter answer here**
-
+The problem that prevents us from easily parallelizing this solution lies in the dictionary "counts". If function were to run on multiple threads (parrallelizing), there is a risk that two threads try to update the count on the same term, overwriting the others answer. We would need to ensure the dictionary counts was synchronized on the many threads which would slow down the function and reduce the benefits of parallelism. 
 
 ## Part 2: Sentiment analysis
 
